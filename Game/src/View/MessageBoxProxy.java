@@ -12,4 +12,8 @@ public class MessageBoxProxy {
         int result = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
         return result == JOptionPane.YES_OPTION;
     }
+
+    public static String getStringAnswer(String message, String title) {
+        return JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE);
+    }
 }

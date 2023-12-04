@@ -1,10 +1,12 @@
 package Entity;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Player {
     private int cash;
     private int tileIndex;
+    public final String NAME;
 
     private boolean isBankrupt;
     private boolean isSkippingMove;
@@ -13,12 +15,13 @@ public class Player {
 
     private int jailEscapeCards;
 
-    private final List<Integer> privateTiles;
+    private final Set<Integer> privateTiles;
 
-    public Player() {
-        this.cash = 10000;
-        this.tileIndex = 0;
-        privateTiles = new ArrayList<Integer>();
+    public Player(int startCash, String name) {
+        cash = startCash;
+        NAME = name;
+        tileIndex = 0;
+        privateTiles = new HashSet<>();
         isBankrupt = false;
         isSkippingMove = false;
         isInJail = false;
@@ -51,14 +54,6 @@ public class Player {
         this.cash -= cash;
     }
 
-    public boolean hasTile(int tileIndex) {
-        return privateTiles.contains(tileIndex);
-    }
-
-    public void addTile(int tileIndex) {
-        privateTiles.add(tileIndex);
-    }
-
     public void setSkippingMove(boolean skippingMove) {
         isSkippingMove = skippingMove;
     }
@@ -89,5 +84,9 @@ public class Player {
 
     public void useJailEscapeCard() {
         jailEscapeCards--;
+    }
+
+    public void addTile(int tileIndex) {
+        privateTiles.add(tileIndex);
     }
 }

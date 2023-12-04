@@ -2,21 +2,33 @@ package GameWorld;
 
 
 import Entity.Player;
-import Entity.Tiles.Tile;
+import Entity.Tiles.*;
+import View.GameView;
 import View.MessageBoxProxy;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameWorld {
     private Tile[] map;
-    private final int MAP_SIZE = 10; // todo: change number
     private Player[] players;
+
     private int playerIndex;
-    private static final int ROUND_CASH = 200;
-    private static final int JAIL_CASH = 100;
-
-
-    private int jailIndex;
-
+    public static final int START_CASH = 1000;
+    public static final int ROUND_CASH = 200;
+    public static final int JAIL_CASH = 100;
+    public static final int MAP_SIZE = 40;
+    public static final int START_INDEX = 0;
+    public static final int JAIL_INDEX = 10;
+    public static final int PARK_INDEX = 20;
+    public static final int GO_TO_JAIL_INDEX = 30;
+    private final JailSystem JAIL_SYSTEM = new JailSystem(this);
     public GameWorld() {
+        start();
+    }
+
+    public void start() {
+        fillMap();
+        //fillPlayers();
     }
 
     public Player getPlayer(int index) {
@@ -24,8 +36,8 @@ public class GameWorld {
         return players[index];
     }
 
-    public Player nextPlayer() {
-        return getPlayer(playerIndex++);
+    public void nextPlayer() {
+        playerIndex++;
     }
 
     public void movePlayer(DiceRoll roll) {
@@ -37,34 +49,9 @@ public class GameWorld {
         if (newIndex < activePlayer.getTileIndex()) {
             activePlayer.addCash(ROUND_CASH);
         }
-        if (!activePlayer.isSkippingMove()) {
-            activePlayer.setTileIndex(newIndex);
 
-            map[newIndex].action(activePlayer);
-
-        } else {
-            activePlayer.setSkippingMove(false);
-        }
-    }
-
-    public void buyTile() {
-        int tileIndex = getActivePlayer().getTileIndex();
-        if (!hasOwner(tileIndex)) {
-            getActivePlayer().payCash(map[tileIndex].PRICE);
-            getActivePlayer().addTile(tileIndex);
-        }
-    }
-
-    public Player getOwner(int tileIndex) {
-        for (Player ch : players) {
-            if (ch.hasTile(tileIndex))
-                return ch;
-        }
-        return null;
-    }
-
-    private boolean hasOwner(int tileIndex) {
-        return getOwner(tileIndex) != null;
+        activePlayer.setTileIndex(newIndex);
+        map[newIndex].action(activePlayer);
     }
 
     private Player getActivePlayer() {
@@ -74,6 +61,11 @@ public class GameWorld {
     public void nextTurn() {
         nextPlayer();
         Player activePlayer = getActivePlayer();
+
+        if (activePlayer.isSkippingMove()) {
+            activePlayer.setSkippingMove(false);
+            return;
+        }
         int count = 0;
         do {
             DiceRoll roll = null;
@@ -95,12 +87,13 @@ public class GameWorld {
                 return;
             }
         } while (count < 3);
-        //todo: horny jail
 
+        goToJail(activePlayer);
     }
 
-    private void goToJail() {
-
+    public void goToJail(Player player) {
+        player.setInJail(true);
+        player.setTileIndex(JAIL_INDEX);
     }
 
     private DiceRoll handleJail() {
@@ -133,4 +126,39 @@ public class GameWorld {
         }
     }
 
+
+    private void fillMap() {
+        map = new Tile[MAP_SIZE];
+        map[START_INDEX] = new StartTile(START_INDEX);
+        map[JAIL_INDEX] = new JailTile(JAIL_INDEX);
+        map[PARK_INDEX] = new ParkingTile(PARK_INDEX);
+        map[GO_TO_JAIL_INDEX] = new GoToJailTile(GO_TO_JAIL_INDEX, JAIL_SYSTEM);
+
+        for (int i = 0; i < MAP_SIZE; i += MAP_SIZE / 8) {
+            int index = i + ThreadLocalRandom.current().nextInt(1, MAP_SIZE / 8);
+            map[index] = new ChanceTile(index, JAIL_SYSTEM);
+        }
+
+        for (int index = 0; index < MAP_SIZE; index++) {
+            if (map[index] == null) {
+                map[index] = new Tile("Lorem Ipsum " + index, index * 10, index * 5, index);
+            }
+        }
+    }
+
+    private void fillPlayers() {
+        players = new Player[4];
+        for (int index = 0; index < players.length; index++) {
+            String name = MessageBoxProxy.getStringAnswer("name?", "Player " + (index + 1));
+            players[index] = new Player(START_CASH, name);
+        }
+    }
+
+    public Tile[] getMap() {
+        return map;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
 }

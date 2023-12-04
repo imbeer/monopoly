@@ -6,13 +6,14 @@ import Utils.DrawUtils;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class JailTile extends Tile{
-    public JailTile(int index) {
-        super("JAIL", 0, 0, index);
+public class ParkingTile extends Tile{
+    public ParkingTile(int index) {
+        super("FREE PARKING", 0, 0, index);
     }
 
-    @Override
-    public void action(Player player) {}
+    public void action(Player player) {
+        player.setSkippingMove(true);
+    }
 
     @Override
     public void draw(Graphics2D g, Rectangle2D fieldBounds, int tilesInRow) {
@@ -24,12 +25,13 @@ public class JailTile extends Tile{
         g.setColor(new Color(0, 0, 0));
         DrawUtils.drawText(DrawUtils.NAME, NAME, g, bounds);
     }
+
     @Override
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {
         double tileWidth = fieldBounds.getWidth() / tilesInRow;
         double tileHeight = fieldBounds.getHeight() / tilesInRow;;
         double xLeft = fieldBounds.getX();
-        double yLeft = fieldBounds.getY() + (tilesInRow - 1) * tileHeight;
+        double yLeft = fieldBounds.getY();
 
         bounds = new Rectangle2D.Double(xLeft, yLeft, tileWidth, tileHeight);
     }
