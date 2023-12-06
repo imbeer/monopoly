@@ -1,26 +1,41 @@
 package View;
 
+import Entity.Tiles.Tile;
 import GameWorld.GameWorld;
 
 import javax.swing.*;
-//import java.awt.*;
-//import java.awt.image.BufferedImage;
+import java.awt.event.*;
 
 public class MainWindow extends JFrame {
-    private final GameView view;
-    private final GameWorld world;
 
     public MainWindow(GameWorld world) {
-        this.world = world;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setVisible(true);
-        view = new GameView(world, this.getWidth(), this.getHeight());
+        GameView view = new GameView(world, this.getWidth(), this.getHeight());
         this.add(view);
-
-//        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-//        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
-//        this.getContentPane().setCursor(blankCursor);
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    if (MessageBoxProxy.getAnswer("exit?", "")) {
+                        dispose();
+                    }
+                }
+            }
+        });
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                for (Tile tile : world.getMap()) {
+                    if (tile.getBounds().contains(x, y)) {
+                        MessageBoxProxy.drawTileInformation(tile);
+                    }
+                }
+            }
+        });
     }
 }

@@ -16,11 +16,11 @@ public class GameWorld {
     public static final int START_CASH = 1000;
     public static final int ROUND_CASH = 200;
     public static final int JAIL_CASH = 100;
-    public static final int MAP_SIZE = 40;
+    public static final int MAP_SIZE = 25;
     public static final int START_INDEX = 0;
-    public static final int JAIL_INDEX = 10;
-    public static final int PARK_INDEX = 20;
-    public static final int GO_TO_JAIL_INDEX = 30;
+    public static final int JAIL_INDEX = 6;
+    public static final int PARK_INDEX = 12;
+    public static final int GO_TO_JAIL_INDEX = 18;
     private final JailSystem JAIL_SYSTEM = new JailSystem(this);
     public GameWorld() {
         start();
@@ -28,7 +28,7 @@ public class GameWorld {
 
     public void start() {
         fillMap();
-        //fillPlayers();
+        fillPlayers();
     }
 
     public Player getPlayer(int index) {
@@ -94,6 +94,7 @@ public class GameWorld {
     public void goToJail(Player player) {
         player.setInJail(true);
         player.setTileIndex(JAIL_INDEX);
+        MessageBoxProxy.showMessage("GO TO HORNY JAIL", "uh??");
     }
 
     private DiceRoll handleJail() {
@@ -134,8 +135,8 @@ public class GameWorld {
         map[PARK_INDEX] = new ParkingTile(PARK_INDEX);
         map[GO_TO_JAIL_INDEX] = new GoToJailTile(GO_TO_JAIL_INDEX, JAIL_SYSTEM);
 
-        for (int i = 0; i < MAP_SIZE; i += MAP_SIZE / 8) {
-            int index = i + ThreadLocalRandom.current().nextInt(1, MAP_SIZE / 8);
+        for (int i = 0; i <= MAP_SIZE - MAP_SIZE / 4; i += MAP_SIZE / 4) {
+            int index = i + ThreadLocalRandom.current().nextInt(1, MAP_SIZE / 4);
             map[index] = new ChanceTile(index, JAIL_SYSTEM);
         }
 

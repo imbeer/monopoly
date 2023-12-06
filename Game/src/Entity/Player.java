@@ -1,5 +1,11 @@
 package Entity;
-import java.util.ArrayList;
+
+import Utils.DrawUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,15 +13,13 @@ public class Player {
     private int cash;
     private int tileIndex;
     public final String NAME;
-
     private boolean isBankrupt;
     private boolean isSkippingMove;
-
     private boolean isInJail;
-
     private int jailEscapeCards;
-
     private final Set<Integer> privateTiles;
+    private final ImageIcon PLAYER_ICON = new ImageIcon("src/Assets/monopoly_player.png");
+    private final Color PLAYER_COLOR = new Color(34, 255, 0);
 
     public Player(int startCash, String name) {
         cash = startCash;
@@ -88,5 +92,22 @@ public class Player {
 
     public void addTile(int tileIndex) {
         privateTiles.add(tileIndex);
+    }
+
+    public void draw(Graphics2D g2d, Rectangle2D bounds) {
+        Image image = PLAYER_ICON.getImage();
+        BufferedImage bufferedImage = new BufferedImage(
+                PLAYER_ICON.getIconWidth(),
+                PLAYER_ICON.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D imageGraphics = bufferedImage.createGraphics();
+        imageGraphics.drawImage(image, 0, 0, null);
+        DrawUtils.colorImage(bufferedImage, PLAYER_COLOR);
+        imageGraphics.dispose();
+        bufferedImage = DrawUtils.scale(bufferedImage, (int) bounds.getWidth(), (int) bounds.getHeight());
+
+
+        g2d.drawImage(bufferedImage, (int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight(), null);
     }
 }

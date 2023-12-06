@@ -1,6 +1,11 @@
 package View;
 
+import Entity.Tiles.Tile;
+import Utils.DrawUtils;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class MessageBoxProxy {
 
@@ -15,5 +20,25 @@ public class MessageBoxProxy {
 
     public static String getStringAnswer(String message, String title) {
         return JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE);
+    }
+
+    public static void drawTileInformation(Tile tile) {
+
+        JPanel panel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+
+                g.setColor(new Color(244, 255, 235));
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                g.setColor(new Color(0, 0, 0));
+                DrawUtils.drawText(DrawUtils.NAME, tile.NAME, (Graphics2D) g, this.getBounds());
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(200, 200); // Set the preferred size of the panel
+            }
+        };
+       JOptionPane.showMessageDialog(null, panel, tile.NAME, JOptionPane.PLAIN_MESSAGE);
     }
 }
