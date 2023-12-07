@@ -89,10 +89,6 @@ public class Player {
         jailEscapeCards--;
     }
 
-//    public void addTile(int tileIndex) {
-//        privateTiles.add(tileIndex);
-//    }
-
     public void draw(Graphics2D g2d, Rectangle2D bounds) {
         Image image = PLAYER_ICON.getImage();
         BufferedImage bufferedImage = new BufferedImage(

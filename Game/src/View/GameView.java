@@ -54,8 +54,19 @@ public class GameView extends JPanel {
     }
 
     private void drawBackGround(Graphics2D g2d){
-        g2d.setColor(new Color(123, 222, 109));
-        g2d.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+        Color dark = new Color(63, 70, 84);
+        Color light = new Color(113, 136, 152);
+        for (int x = 0; x < PANEL_WIDTH; x += 100) {
+            for (int y = 0; y < PANEL_HEIGHT; y+=100) {
+                g2d.setColor(dark);
+                g2d.fillRect(x, y, 50, 50);
+                g2d.fillRect(x + 50, y + 50, 50, 50);
+
+                g2d.setColor(light);
+                g2d.fillRect(x + 50, y, 50, 50);
+                g2d.fillRect(x, y + 50, 50, 50);
+            }
+        }
     }
 
     private void drawTiles(Graphics2D g2d) {
