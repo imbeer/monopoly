@@ -41,7 +41,7 @@ public class Tile {
     }
     public void setOwner(Player player) {
         owner = player;
-        player.addTile(INDEX);
+        //player.addTile(INDEX);
     }
 
     public Player getOwner() {

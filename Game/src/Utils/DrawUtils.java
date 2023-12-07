@@ -5,7 +5,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class DrawUtils {
-
     public static final Font NAME = new Font("Arial", Font.BOLD, 18);
     public static final Font PRICE = new Font("Arial", Font.BOLD, 18);
 
@@ -14,7 +13,7 @@ public class DrawUtils {
         FontMetrics metrics = g.getFontMetrics(font);
         int x = (int) (bounds.getX() + (bounds.getWidth() - metrics.stringWidth(text)) / 2);
         int y = (int) (bounds.getY() + ((bounds.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent());
-        g.drawString(text, (int) x, (int) y);
+        g.drawString(text, x, y);
     }
 
     public static Rectangle2D getHorizontalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {

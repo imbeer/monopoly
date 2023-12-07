@@ -17,20 +17,18 @@ public class Player {
     private boolean isSkippingMove;
     private boolean isInJail;
     private int jailEscapeCards;
-    private final Set<Integer> privateTiles;
     private final ImageIcon PLAYER_ICON = new ImageIcon("src/Assets/monopoly_player.png");
     private final Color PLAYER_COLOR;
 
-    public Player(int startCash, String name, Color playerColor) {
-        cash = startCash;
-        NAME = name;
-        PLAYER_COLOR = playerColor;
-        tileIndex = 0;
-        privateTiles = new HashSet<>();
-        isBankrupt = false;
-        isSkippingMove = false;
-        isInJail = false;
-        jailEscapeCards = 0;
+    public Player(int cash, int tileIndex, String name, Color playerColor) {
+        this.cash = cash;
+        this.NAME = name;
+        this.PLAYER_COLOR = playerColor;
+        this.tileIndex = tileIndex;
+        this.isBankrupt = false;
+        this.isSkippingMove = false;
+        this.isInJail = false;
+        this.jailEscapeCards = 0;
     }
 
     public int getCash() {
@@ -55,7 +53,7 @@ public class Player {
     }
 
     public void payCash(int cash) {
-        this.isBankrupt = (this.cash - cash > 0);
+        this.isBankrupt = (this.cash - cash < 0);
         this.cash -= cash;
     }
 
@@ -91,9 +89,9 @@ public class Player {
         jailEscapeCards--;
     }
 
-    public void addTile(int tileIndex) {
-        privateTiles.add(tileIndex);
-    }
+//    public void addTile(int tileIndex) {
+//        privateTiles.add(tileIndex);
+//    }
 
     public void draw(Graphics2D g2d, Rectangle2D bounds) {
         Image image = PLAYER_ICON.getImage();
@@ -110,5 +108,9 @@ public class Player {
 
 
         g2d.drawImage(bufferedImage, (int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight(), null);
+    }
+
+    public boolean isBankrupt() {
+        return isBankrupt;
     }
 }

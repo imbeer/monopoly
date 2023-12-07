@@ -5,7 +5,6 @@ import Utils.DrawUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class MessageBoxProxy {
 
@@ -23,7 +22,6 @@ public class MessageBoxProxy {
     }
 
     public static void drawTileInformation(Tile tile) {
-
         JPanel panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -36,7 +34,7 @@ public class MessageBoxProxy {
 
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(200, 200); // Set the preferred size of the panel
+                return new Dimension(200, 200);
             }
         };
        JOptionPane.showMessageDialog(null, panel, tile.NAME, JOptionPane.PLAIN_MESSAGE);

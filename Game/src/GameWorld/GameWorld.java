@@ -3,18 +3,21 @@ package GameWorld;
 
 import Entity.Player;
 import Entity.Tiles.*;
+import View.GameView;
 import View.MessageBoxProxy;
 
 import java.awt.*;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.ThreadLocalRandom;
+
 
 public class GameWorld {
     private Tile[] map;
     private Player[] players;
-
-    private int playerIndex;
-    public static final int START_CASH = 1000;
+    private int playerIndex = -1;
+    private boolean isStarted = false;
+    public static final int START_CASH = 10000;
     public static final int ROUND_CASH = 200;
     public static final int JAIL_CASH = 100;
     public static final int MAP_SIZE = 25;
@@ -23,22 +26,22 @@ public class GameWorld {
     public static final int PARK_INDEX = 12;
     public static final int GO_TO_JAIL_INDEX = 18;
     private final JailSystem JAIL_SYSTEM = new JailSystem(this);
+    private GameView view;
+
     public GameWorld() {
-        start();
     }
 
-    public void start() {
+    public void start(GameView view) {
         fillMap();
         fillPlayers();
+        isStarted = true;
+        this.view = view;
+        view.repaint();
     }
 
-    public Player getPlayer(int index) {
-        index = index % players.length;
-        return players[index];
-    }
-
-    public void nextPlayer() {
+    private void nextPlayer() {
         playerIndex++;
+        playerIndex = playerIndex % 4;
     }
 
     public void movePlayer(DiceRoll roll) {
@@ -52,6 +55,7 @@ public class GameWorld {
         }
 
         activePlayer.setTileIndex(newIndex);
+        view.repaint();
         map[newIndex].action(activePlayer);
     }
 
@@ -62,6 +66,7 @@ public class GameWorld {
     public void nextTurn() {
         nextPlayer();
         Player activePlayer = getActivePlayer();
+        view.repaint();
 
         if (activePlayer.isSkippingMove()) {
             activePlayer.setSkippingMove(false);
@@ -72,6 +77,7 @@ public class GameWorld {
             DiceRoll roll = null;
             if (activePlayer.isInJail()) {
                 roll = handleJail();
+                view.repaint();
                 if (activePlayer.isInJail()) {
                     return;
                 }
@@ -81,7 +87,7 @@ public class GameWorld {
             }
 
             movePlayer(roll);
-
+            view.repaint();
             if (roll.isDouble()) {
                 count++;
             } else {
@@ -96,6 +102,7 @@ public class GameWorld {
         player.setInJail(true);
         player.setTileIndex(JAIL_INDEX);
         MessageBoxProxy.showMessage("GO TO HORNY JAIL", "uh??");
+        view.repaint();
     }
 
     private DiceRoll handleJail() {
@@ -128,7 +135,6 @@ public class GameWorld {
         }
     }
 
-
     private void fillMap() {
         map = new Tile[MAP_SIZE];
         map[START_INDEX] = new StartTile(START_INDEX);
@@ -150,7 +156,7 @@ public class GameWorld {
 
     private void fillPlayers() {
         players = new Player[4];
-        Color[] colors = new Color[] {
+        Color[] colors = new Color[]{
                 new Color(246, 91, 91),
                 new Color(91, 246, 94),
                 new Color(246, 210, 91),
@@ -159,7 +165,7 @@ public class GameWorld {
 
         for (int index = 0; index < players.length; index++) {
             String name = MessageBoxProxy.getStringAnswer("name?", "Player " + (index + 1));
-            players[index] = new Player(START_CASH, name, colors[index]);
+            players[index] = new Player(START_CASH, START_INDEX, name, colors[index]);
         }
     }
 
@@ -169,5 +175,17 @@ public class GameWorld {
 
     public Player[] getPlayers() {
         return players;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public boolean hasNotBankruptPlayers() {
+        return Arrays.stream(players).filter(Player::isBankrupt).count() < 3;
+    }
+
+    public Player getWinner() {
+        return Arrays.stream(players).max(Comparator.comparingInt(Player::getCash)).orElse(null);
     }
 }
