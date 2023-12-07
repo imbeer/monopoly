@@ -19,11 +19,12 @@ public class Player {
     private int jailEscapeCards;
     private final Set<Integer> privateTiles;
     private final ImageIcon PLAYER_ICON = new ImageIcon("src/Assets/monopoly_player.png");
-    private final Color PLAYER_COLOR = new Color(34, 255, 0);
+    private final Color PLAYER_COLOR;
 
-    public Player(int startCash, String name) {
+    public Player(int startCash, String name, Color playerColor) {
         cash = startCash;
         NAME = name;
+        PLAYER_COLOR = playerColor;
         tileIndex = 0;
         privateTiles = new HashSet<>();
         isBankrupt = false;

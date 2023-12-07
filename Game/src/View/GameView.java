@@ -51,7 +51,7 @@ public class GameView extends JPanel {
     }
 
     private void drawBackGround(Graphics2D g2d){
-        g2d.setColor(new Color(218, 246, 214));
+        g2d.setColor(new Color(123, 222, 109));
         g2d.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
     }
 
@@ -65,8 +65,8 @@ public class GameView extends JPanel {
         for (Player player : world.getPlayers()) {
             int index = player.getTileIndex();
             Rectangle2D bounds = world.getMap()[index].getBounds();
-            bounds = DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 1);
             bounds = DrawUtils.getHorizontalPartOfBounds(bounds, 0.3, 0.7);
+            bounds = DrawUtils.getVerticalPartOfBounds(bounds, 0.3, 0.7);
             player.draw(g2d, bounds);
         }
     }

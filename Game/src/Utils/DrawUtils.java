@@ -48,7 +48,7 @@ public class DrawUtils {
             for (int y = 0; y < bImage.getHeight(); y++) {
                 int rgba = bImage.getRGB(x, y);
                 Color col = new Color(rgba, true);
-                if (col.getAlpha() >= 0.0f) {
+                if (col.getAlpha() >= 0.5f) {
                     bImage.setRGB(x, y, color.getRGB());
                 }
             }
@@ -60,7 +60,7 @@ public class DrawUtils {
     public static BufferedImage scale(BufferedImage src, int w, int h)
     {
         BufferedImage img =
-                new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+                new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         int x, y;
         int ww = src.getWidth();
         int hh = src.getHeight();

@@ -3,9 +3,10 @@ package GameWorld;
 
 import Entity.Player;
 import Entity.Tiles.*;
-import View.GameView;
 import View.MessageBoxProxy;
 
+import java.awt.*;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GameWorld {
@@ -149,9 +150,16 @@ public class GameWorld {
 
     private void fillPlayers() {
         players = new Player[4];
+        Color[] colors = new Color[] {
+                new Color(246, 91, 91),
+                new Color(91, 246, 94),
+                new Color(246, 210, 91),
+                new Color(91, 145, 246)
+        };
+
         for (int index = 0; index < players.length; index++) {
             String name = MessageBoxProxy.getStringAnswer("name?", "Player " + (index + 1));
-            players[index] = new Player(START_CASH, name);
+            players[index] = new Player(START_CASH, name, colors[index]);
         }
     }
 
