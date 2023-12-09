@@ -25,7 +25,7 @@ public class Tile {
             player.sendCash(owner, RENT);
         } else {
             if (player.getCash() >= PRICE) {
-                boolean answer = player.ask("queres?", "BUY");
+                boolean answer = player.ask("Do you want to buy " + NAME + "?", "BUY");
                 if (answer) {
                     player.payCash(PRICE);
                     setOwner(player);
@@ -53,7 +53,7 @@ public class Tile {
         g.setColor(getColor());
         g.fill(DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
         g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
+        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
         String second;
         String third;
         if (!hasOwner()) {
@@ -63,10 +63,9 @@ public class Tile {
             second = "owner is " + owner.NAME;
             third = RENT + " $";
         }
-        DrawUtils.drawText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 0.7));
-        DrawUtils.drawText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.7, 1));
+        DrawUtils.drawCenteredText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 0.7));
+        DrawUtils.drawCenteredText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.7, 1));
         g.setColor(getColor());
-        g.draw(bounds);
     }
 
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {

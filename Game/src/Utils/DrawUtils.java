@@ -8,11 +8,18 @@ public class DrawUtils {
     public static final Font NAME = new Font("Arial", Font.BOLD, 18);
     public static final Font PRICE = new Font("Arial", Font.BOLD, 18);
 
-    public static void drawText(Font font, String text, Graphics2D g, Rectangle2D bounds) {
+    public static void drawCenteredText(Font font, String text, Graphics2D g, Rectangle2D bounds) {
         g.setFont(font);
         FontMetrics metrics = g.getFontMetrics(font);
         int x = (int) (bounds.getX() + (bounds.getWidth() - metrics.stringWidth(text)) / 2);
         int y = (int) (bounds.getY() + ((bounds.getHeight() - metrics.getHeight()) / 2) + metrics.getAscent());
+        g.drawString(text, x, y);
+    }
+
+    public static void drawText(Font font, String text, Graphics2D g, Rectangle2D bounds) {
+        g.setFont(font);
+        int x = (int) bounds.getX();
+        int y = (int) bounds.getY();
         g.drawString(text, x, y);
     }
 

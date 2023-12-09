@@ -23,7 +23,7 @@ public class ParkingTile extends Tile{
         g.setColor(new Color(255, 255, 255));
         g.fill(bounds);
         g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawText(DrawUtils.NAME, NAME, g, bounds);
+        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, bounds);
     }
 
     @Override

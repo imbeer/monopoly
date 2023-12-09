@@ -84,6 +84,10 @@ public class Player {
         return 0 < jailEscapeCards;
     }
 
+    public int getJailEscapeCards() {
+        return jailEscapeCards;
+    }
+
     public void addJailEscapeCard() {
         jailEscapeCards++;
     }

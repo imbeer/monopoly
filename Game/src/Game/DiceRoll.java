@@ -15,7 +15,6 @@ public class DiceRoll {
         Random random = ThreadLocalRandom.current();
         firstRoll = random.nextInt(1, 7);
         secondRoll = random.nextInt(1, 7);
-        MessageBoxProxy.showMessage(firstRoll + " + " + secondRoll, "dice:");
     }
 
     public int getFirstRoll() {

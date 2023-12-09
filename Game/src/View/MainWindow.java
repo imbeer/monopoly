@@ -1,19 +1,28 @@
 package View;
 
 import Entity.Tiles.Tile;
-import Game.GameWorld;
+import Game.*;
 
 import javax.swing.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame {
     private GameView view;
-    public MainWindow(GameWorld gameWorld) {
+    public final GameWorld WORLD;
+    public final Game GAME;
+    public final NextTurnButton BUTTON;
+    public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setVisible(true);
-        view = new GameView(gameWorld, this.getWidth(), this.getHeight());
+
+        BUTTON = new NextTurnButton();
+        view = new GameView(this.getWidth(), this.getHeight(), BUTTON);
+        GAME = new Game(view);
+        WORLD = GAME.getWorld();
+        view.setWorld(WORLD);
+
         this.add(view);
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -30,13 +39,18 @@ public class MainWindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
-                for (Tile tile : gameWorld.getMap()) {
+                if (BUTTON.getBounds().contains(x, y)) {
+                    GAME.nextTurn();
+                    return;
+                }
+                for (Tile tile : WORLD.getMap()) {
                     if (tile.getBounds().contains(x, y)) {
                         MessageBoxProxy.drawTileInformation(tile);
                     }
                 }
             }
         });
+        setVisible(true);
     }
 
     public GameView getView() {

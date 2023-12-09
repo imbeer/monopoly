@@ -1,32 +1,25 @@
 package Game;
 
 import Entity.Players.Player;
+import Utils.Config;
 import View.GameView;
-import View.MainWindow;
 import View.MessageBoxProxy;
+
+import javax.swing.*;
 
 public class Game {
     private final GameView view;
     private final GameWorld world;
-    private final MainWindow window;
     private final JailSystem jailSystem;
 
-    public Game() {
+    public Game(GameView view) {
         jailSystem = new JailSystem();
         world = new GameWorld(jailSystem);
-        window = new MainWindow(world);
-        view = window.getView();
+        this.view = view;
     }
 
     public void start() {
-        while (MessageBoxProxy.getAnswer("new game?", "HI")) {
-            world.start();
-            while (world.hasNotBankruptPlayers()) {
-                nextTurn();
-            }
-            MessageBoxProxy.showMessage(world.getWinner().NAME, "winner:");
-        }
-        window.dispose();
+        world.start();
     }
 
     public void nextTurn() {
@@ -76,10 +69,10 @@ public class Game {
         int step = roll.getSum();
         Player activePlayer = world.getActivePlayer();
 
-        int newIndex = (activePlayer.getTileIndex() + step) % GameWorld.MAP_SIZE;
+        int newIndex = (activePlayer.getTileIndex() + step) % Config.MAP_SIZE;
 
         if (newIndex < activePlayer.getTileIndex()) {
-            activePlayer.addCash(GameWorld.ROUND_CASH);
+            activePlayer.addCash(Config.ROUND_CASH);
         }
 
         activePlayer.setTileIndex(newIndex);
@@ -90,29 +83,29 @@ public class Game {
     private DiceRoll handleJail() {
         Player activePlayer = world.getActivePlayer();
         if (activePlayer.hasJailEscapeCards()) {
-            boolean answer = activePlayer.ask("cards?", "");
+            boolean answer = activePlayer.ask("Do you want to spend your jail card?", "");
             if (answer) {
                 activePlayer.setInJail(false);
                 activePlayer.useJailEscapeCard();
                 return null;
             }
         }
-        if (activePlayer.getCash() >= GameWorld.JAIL_CASH) {
-            boolean answer = activePlayer.ask("money?", "");
+        if (activePlayer.getCash() >= Config.JAIL_CASH) {
+            boolean answer = activePlayer.ask("Spend " + Config.JAIL_CASH + " money to escape jail?", "");
             if (answer) {
                 activePlayer.setInJail(false);
-                activePlayer.payCash(GameWorld.JAIL_CASH);
+                activePlayer.payCash(Config.JAIL_CASH);
                 return null;
             }
         }
 
         DiceRoll roll = roll();
         if (roll.isDouble()) {
-            MessageBoxProxy.showMessage("YAY", "");
+            MessageBoxProxy.showMessage("Successfully escape jail because of good luck", "Escape Completed");
             activePlayer.setInJail(false);
             return roll;
         } else {
-            MessageBoxProxy.showMessage("NAY", "");
+            MessageBoxProxy.showMessage("Unfortunately lack of luck", "Escape Failed");
             return null;
         }
     }
@@ -122,5 +115,9 @@ public class Game {
         world.setActiveDiceRoll(roll);
         view.repaint();
         return roll;
+    }
+
+    public GameWorld getWorld() {
+        return world;
     }
 }

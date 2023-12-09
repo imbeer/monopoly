@@ -23,16 +23,18 @@ public class ChanceTile extends Tile {
                 player.addJailEscapeCard();
             },
             (player, system) -> {
-                MessageBoxProxy.showMessage("random says - pay taxes please", "title");
-                player.payCash(ThreadLocalRandom.current().nextInt(5, 21) * 10);
+                int cash = ThreadLocalRandom.current().nextInt(5, 21) * 10;
+                MessageBoxProxy.showMessage("random says - pay " + cash + " taxes please", "title");
+                player.payCash(cash);
             },
             (player, system) -> {
                 MessageBoxProxy.showMessage("random says - go to jail", "title");
                 system.goToJail(player);
             },
             (player, system) -> {
-                MessageBoxProxy.showMessage("random says - free money", "title");
-                player.addCash(ThreadLocalRandom.current().nextInt(5, 21) * 10);
+                int cash = ThreadLocalRandom.current().nextInt(5, 21) * 10;
+                MessageBoxProxy.showMessage("random says - free " + cash + " money", "title");
+                player.addCash(cash);
             }
 
     };
@@ -55,7 +57,7 @@ public class ChanceTile extends Tile {
         g.setColor(new Color(255, 194, 36));
         g.fill(bounds);
         g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawText(DrawUtils.NAME, NAME, g, bounds);
+        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, bounds);
     }
 
 }

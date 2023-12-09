@@ -29,7 +29,7 @@ public class MessageBoxProxy {
                 g.setColor(new Color(244, 255, 235));
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
                 g.setColor(new Color(0, 0, 0));
-                DrawUtils.drawText(DrawUtils.NAME, tile.NAME, (Graphics2D) g, this.getBounds());
+                DrawUtils.drawCenteredText(DrawUtils.NAME, tile.NAME, (Graphics2D) g, this.getBounds());
             }
 
             @Override
