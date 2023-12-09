@@ -34,12 +34,13 @@ public class Game {
         Player activePlayer = world.getActivePlayer();
         view.repaint();
 
-        if (activePlayer.isSkippingMove()) {
-            activePlayer.setSkippingMove(false);
-            return;
-        }
         int count = 0;
         do {
+            if (activePlayer.isSkippingMove()) {
+                activePlayer.setSkippingMove(false);
+                return;
+            }
+
             DiceRoll roll = null;
             if (activePlayer.isInJail()) {
                 roll = handleJail();
@@ -49,7 +50,7 @@ public class Game {
                 }
             }
             if (roll == null) {
-                roll = new DiceRoll();
+                roll = roll();
             }
 
             movePlayer(roll);
@@ -59,6 +60,12 @@ public class Game {
             } else {
                 return;
             }
+
+            if (activePlayer.isInJail()) {
+                view.repaint();
+                return;
+            }
+
         } while (count < 3);
 
         jailSystem.goToJail(activePlayer);
@@ -99,7 +106,7 @@ public class Game {
             }
         }
 
-        DiceRoll roll = new DiceRoll();
+        DiceRoll roll = roll();
         if (roll.isDouble()) {
             MessageBoxProxy.showMessage("YAY", "");
             activePlayer.setInJail(false);
@@ -110,4 +117,10 @@ public class Game {
         }
     }
 
+    private DiceRoll roll() {
+        DiceRoll roll = new DiceRoll();
+        world.setActiveDiceRoll(roll);
+        view.repaint();
+        return roll;
+    }
 }

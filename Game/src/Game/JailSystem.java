@@ -5,13 +5,15 @@ import View.MessageBoxProxy;
 
 public class JailSystem {
 
+    public static final int JAIL_INDEX = 6;
+
     public JailSystem() {
     }
 
     public void goToJail(Player player) {
-        player.setInJail(true);
-        player.setTileIndex(GameWorld.JAIL_INDEX);
         MessageBoxProxy.showMessage("The verdict is in - you're going to jail", "uh??");
+        player.setInJail(true);
+        player.setTileIndex(JAIL_INDEX);
     }
 
 }

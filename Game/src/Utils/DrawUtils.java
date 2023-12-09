@@ -16,7 +16,7 @@ public class DrawUtils {
         g.drawString(text, x, y);
     }
 
-    public static Rectangle2D getHorizontalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {
+    public static Rectangle2D getVerticalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {
         firstLine = orig.getY() + orig.getHeight() * firstLine;
         secondLine = orig.getY() + orig.getHeight() * secondLine;
         return new Rectangle2D.Double(
@@ -27,7 +27,7 @@ public class DrawUtils {
         );
     }
 
-    public static Rectangle2D getVerticalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {
+    public static Rectangle2D getHorizontalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {
         firstLine = orig.getX() + orig.getWidth() * firstLine;
         secondLine = orig.getX() + orig.getWidth() * secondLine;
         return new Rectangle2D.Double(

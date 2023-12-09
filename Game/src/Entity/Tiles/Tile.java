@@ -50,12 +50,23 @@ public class Tile {
         }
         g.setColor(new Color(255, 255, 255));
         g.fill(bounds);
-        g.setColor(new Color(250, 60, 60));
-        g.fill(DrawUtils.getHorizontalPartOfBounds(bounds, 0, 0.4));
+        g.setColor(getColor());
+        g.fill(DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
         g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawText(DrawUtils.NAME, NAME, g, DrawUtils.getHorizontalPartOfBounds(bounds, 0, 0.4));
-        DrawUtils.drawText(DrawUtils.PRICE, String.valueOf(PRICE) + " $", g, DrawUtils.getHorizontalPartOfBounds(bounds, 0.5, 0.7));
-        DrawUtils.drawText(DrawUtils.PRICE, String.valueOf(RENT) + " $", g, DrawUtils.getHorizontalPartOfBounds(bounds, 0.7, 1));
+        DrawUtils.drawText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
+        String second;
+        String third;
+        if (!hasOwner()) {
+            second = PRICE + " $";
+            third = "";
+        } else {
+            second = "owner is " + owner.NAME;
+            third = RENT + " $";
+        }
+        DrawUtils.drawText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 0.7));
+        DrawUtils.drawText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.7, 1));
+        g.setColor(getColor());
+        g.draw(bounds);
     }
 
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {
@@ -83,5 +94,13 @@ public class Tile {
 
     public Rectangle2D getBounds() {
         return bounds;
+    }
+
+    public Color getColor() {
+        if (!hasOwner()) {
+            return new Color(255, 255, 255);
+        } else {
+            return owner.PLAYER_COLOR;
+        }
     }
 }

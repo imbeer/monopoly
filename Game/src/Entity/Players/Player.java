@@ -17,7 +17,7 @@ public class Player {
     private boolean isInJail;
     private int jailEscapeCards;
     private final ImageIcon PLAYER_ICON = new ImageIcon("src/Assets/monopoly_player.png");
-    private final Color PLAYER_COLOR;
+    public final Color PLAYER_COLOR;
 
     public Player(int cash, int tileIndex, String name, Color playerColor) {
         this.cash = cash;
@@ -48,11 +48,13 @@ public class Player {
 
     public void sendCash(Player receiver, int cash) {
         payCash(cash);
-        receiver.cash += cash;
+        receiver.addCash(cash);
     }
 
     public void payCash(int cash) {
-        this.isBankrupt = (this.cash - cash < 0);
+        if (this.cash - cash < 0) {
+            this.isBankrupt = true;
+        }
         this.cash -= cash;
     }
 
@@ -73,7 +75,9 @@ public class Player {
     }
 
     public void addCash(int cash) {
-        this.cash += cash;
+        if (!isBankrupt) {
+            this.cash += cash;
+        }
     }
 
     public boolean hasJailEscapeCards() {
