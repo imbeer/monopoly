@@ -1,7 +1,7 @@
 package View;
 
 import Entity.Tiles.Tile;
-import GameWorld.GameWorld;
+import Game.GameWorld;
 
 import javax.swing.*;
 import java.awt.event.*;

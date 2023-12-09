@@ -1,4 +1,4 @@
-package GameWorld;
+package Game;
 
 import View.MessageBoxProxy;
 

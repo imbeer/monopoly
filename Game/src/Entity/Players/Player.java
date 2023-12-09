@@ -1,18 +1,17 @@
-package Entity;
+package Entity.Players;
 
 import Utils.DrawUtils;
+import View.MessageBoxProxy;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Player {
+    public final String NAME;
     private int cash;
     private int tileIndex;
-    public final String NAME;
     private boolean isBankrupt;
     private boolean isSkippingMove;
     private boolean isInJail;
@@ -31,12 +30,12 @@ public class Player {
         this.jailEscapeCards = 0;
     }
 
-    public int getCash() {
-        return cash;
+    public boolean ask(String message, String title) {
+        return MessageBoxProxy.getAnswer(message, title);
     }
 
-    public void setCash(int cash) {
-        this.cash = cash;
+    public int getCash() {
+        return cash;
     }
 
     public int getTileIndex() {
@@ -90,7 +89,7 @@ public class Player {
     }
 
     public void draw(Graphics2D g2d, Rectangle2D bounds) {
-        Image image = PLAYER_ICON.getImage();
+        Image image = getImage();
         BufferedImage bufferedImage = new BufferedImage(
                 PLAYER_ICON.getIconWidth(),
                 PLAYER_ICON.getIconHeight(),
@@ -108,5 +107,9 @@ public class Player {
 
     public boolean isBankrupt() {
         return isBankrupt;
+    }
+
+    public Image getImage() {
+        return PLAYER_ICON.getImage();
     }
 }

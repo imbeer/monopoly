@@ -1,6 +1,6 @@
 package Entity.Tiles;
 
-import Entity.Player;
+import Entity.Players.Player;
 import Utils.DrawUtils;
 
 import java.awt.*;

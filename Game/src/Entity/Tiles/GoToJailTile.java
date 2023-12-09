@@ -1,7 +1,7 @@
 package Entity.Tiles;
 
-import Entity.Player;
-import GameWorld.JailSystem;
+import Entity.Players.Player;
+import Game.JailSystem;
 import Utils.DrawUtils;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ public class GoToJailTile extends Tile{
     @Override
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {
         double tileWidth = fieldBounds.getWidth() / tilesInRow;
-        double tileHeight = fieldBounds.getHeight() / tilesInRow;;
+        double tileHeight = fieldBounds.getHeight() / tilesInRow;
         double xLeft = fieldBounds.getX() + (tilesInRow - 1) * tileWidth;
         double yLeft = fieldBounds.getY();
 

@@ -1,8 +1,7 @@
 package Entity.Tiles;
 
-import Entity.Player;
-import GameWorld.GameWorld;
-import GameWorld.JailSystem;
+import Entity.Players.Player;
+import Game.JailSystem;
 import Utils.DrawUtils;
 import View.MessageBoxProxy;
 
@@ -20,19 +19,19 @@ public class ChanceTile extends Tile {
 
     private static final Chance[] CHANCES = new Chance[]{
             (player, system) -> {
-                MessageBoxProxy.showMessage("jail escape", "title");
+                MessageBoxProxy.showMessage("random says - u have an opportunity to escape from jail", "title");
                 player.addJailEscapeCard();
             },
             (player, system) -> {
-                MessageBoxProxy.showMessage("taxes moment", "title");
+                MessageBoxProxy.showMessage("random says - pay taxes please", "title");
                 player.payCash(ThreadLocalRandom.current().nextInt(5, 21) * 10);
             },
             (player, system) -> {
-                MessageBoxProxy.showMessage("go to horny jail", "title");
+                MessageBoxProxy.showMessage("random says - go to jail", "title");
                 system.goToJail(player);
             },
             (player, system) -> {
-                MessageBoxProxy.showMessage("free money", "title");
+                MessageBoxProxy.showMessage("random says - free money", "title");
                 player.addCash(ThreadLocalRandom.current().nextInt(5, 21) * 10);
             }
 

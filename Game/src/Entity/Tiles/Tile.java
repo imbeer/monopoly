@@ -1,8 +1,7 @@
 package Entity.Tiles;
 
-import Entity.Player;
+import Entity.Players.Player;
 import Utils.DrawUtils;
-import View.MessageBoxProxy;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -13,7 +12,6 @@ public class Tile {
     public final int RENT;
     public final int INDEX;
     private Player owner;
-
     protected Rectangle2D bounds;
 
     public Tile(String name, int price, int rent, int index) {
@@ -27,7 +25,7 @@ public class Tile {
             player.sendCash(owner, RENT);
         } else {
             if (player.getCash() >= PRICE) {
-                boolean answer = MessageBoxProxy.getAnswer("queres?", "");
+                boolean answer = player.ask("queres?", "BUY");
                 if (answer) {
                     player.payCash(PRICE);
                     setOwner(player);
@@ -41,9 +39,7 @@ public class Tile {
     }
     public void setOwner(Player player) {
         owner = player;
-        //player.addTile(INDEX);
     }
-
     public Player getOwner() {
         return owner;
     }
