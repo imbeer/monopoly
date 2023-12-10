@@ -41,6 +41,7 @@ public class GameWorld {
         activePlayer = playerIterator.next();
         if (activePlayer.isBankrupt()) {
             playerIterator.remove();
+            nextPlayer();
         }
     }
 
@@ -49,7 +50,12 @@ public class GameWorld {
     }
 
     public int getActivePlayerIndex() {
-        return playerIterator.nextIndex() - 1;
+        for (int i = 0; i < players.length; i++) {
+            if (players[i] == activePlayer) {
+                return i;
+            }
+        }
+        return 5;
     }
 
     private void fillMap() {

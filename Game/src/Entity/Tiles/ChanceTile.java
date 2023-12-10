@@ -5,11 +5,15 @@ import Game.JailSystem;
 import Utils.DrawUtils;
 import View.MessageBoxProxy;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChanceTile extends Tile {
+    private final ImageIcon CHANCE_ICON = new ImageIcon("src/Assets/monopoly_chance_tile.png");
+
     @FunctionalInterface
     private interface Chance {
         void action(Player player, JailSystem system);
@@ -50,14 +54,22 @@ public class ChanceTile extends Tile {
     }
 
     @Override
-    public void draw(Graphics2D g, Rectangle2D fieldBounds, int tilesInRow) {
-        if (bounds == null) {
-            fillTileBounds(fieldBounds, tilesInRow);
-        }
-        g.setColor(new Color(255, 194, 36));
+    public void drawInBounds(Graphics2D g, Rectangle2D bounds) {
+        g.setColor(new Color(255, 243, 191));
         g.fill(bounds);
-        g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, bounds);
+        Image image = CHANCE_ICON.getImage();
+        BufferedImage bufferedImage = new BufferedImage(
+                CHANCE_ICON.getIconWidth(),
+                CHANCE_ICON.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D imageGraphics = bufferedImage.createGraphics();
+        imageGraphics.drawImage(image, 0, 0, null);
+        DrawUtils.colorImage(bufferedImage, Color.black);
+        imageGraphics.dispose();
+        bufferedImage = DrawUtils.scale(bufferedImage, (int) bounds.getWidth(), (int) bounds.getHeight());
+
+        g.drawImage(bufferedImage, (int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight(), null);
     }
 
 }

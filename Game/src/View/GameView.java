@@ -81,12 +81,14 @@ public class GameView extends JPanel {
     }
 
     private void drawPlayers(Graphics2D g2d) {
-        for (Player player : world.getPlayers()) {
+        for (int i = 0; i < world.getPlayers().length; i++) {
+            Player player = world.getPlayers()[i];
             int index = player.getTileIndex();
             Rectangle2D bounds = world.getMap()[index].getBounds();
             bounds = DrawUtils.getVerticalPartOfBounds(bounds, 0.3, 0.7);
             bounds = DrawUtils.getHorizontalPartOfBounds(bounds, 0.3, 0.7);
-            player.draw(g2d, bounds);
+            double xChange = -20 + i * 10;
+            player.draw(g2d, new Rectangle2D.Double(bounds.getX() + xChange, bounds.getY(), bounds.getWidth(), bounds.getHeight()));
         }
     }
 
@@ -100,6 +102,7 @@ public class GameView extends JPanel {
                 g2d.setColor(new Color(166, 220, 139));
                 g2d.fill(playerBounds);
             }
+
 
             double yIcon = DrawUtils.getNewBoundCentered(playerBounds.getHeight(), getTileHeight()) + playerBounds.getY();
             double xIcon = LEFT_MENU_BOUNDS.getX() + (double) getTileHeight() / 5;

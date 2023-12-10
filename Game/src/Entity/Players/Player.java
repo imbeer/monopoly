@@ -52,7 +52,7 @@ public class Player {
     }
 
     public void payCash(int cash) {
-        if (this.cash - cash < 0) {
+        if (this.cash - cash <= 0) {
             this.isBankrupt = true;
         }
         this.cash -= cash;

@@ -5,6 +5,7 @@ import Utils.DrawUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 public class Tile {
     public final String NAME;
@@ -48,24 +49,7 @@ public class Tile {
         if (bounds == null) {
             fillTileBounds(fieldBounds, tilesInRow);
         }
-        g.setColor(new Color(255, 255, 255));
-        g.fill(bounds);
-        g.setColor(getColor());
-        g.fill(DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
-        g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
-        String second;
-        String third;
-        if (!hasOwner()) {
-            second = PRICE + " $";
-            third = "";
-        } else {
-            second = "owner is " + owner.NAME;
-            third = RENT + " $";
-        }
-        DrawUtils.drawCenteredText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 0.7));
-        DrawUtils.drawCenteredText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.7, 1));
-        g.setColor(getColor());
+        drawInBounds(g, bounds);
     }
 
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {
@@ -101,5 +85,26 @@ public class Tile {
         } else {
             return owner.PLAYER_COLOR;
         }
+    }
+
+    public void drawInBounds(Graphics2D g, Rectangle2D bounds) {
+        g.setColor(new Color(255, 255, 255));
+        g.fill(bounds);
+        g.setColor(getColor());
+        g.fill(DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
+        g.setColor(new Color(0, 0, 0));
+        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
+        String second;
+        String third;
+        if (!hasOwner()) {
+            second = PRICE + " $";
+            third = "";
+        } else {
+            second = "owner is " + owner.NAME;
+            third = RENT + " $";
+        }
+        DrawUtils.drawCenteredText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 0.7));
+        DrawUtils.drawCenteredText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.7, 1));
+        g.setColor(getColor());
     }
 }
