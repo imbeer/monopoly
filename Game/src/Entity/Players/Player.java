@@ -1,5 +1,6 @@
 package Entity.Players;
 
+import Entity.Tiles.Tile;
 import Utils.DrawUtils;
 import View.MessageBoxProxy;
 
@@ -32,6 +33,9 @@ public class Player {
 
     public boolean ask(String message, String title) {
         return MessageBoxProxy.getAnswer(message, title);
+    }
+    public boolean endTurn() {
+        return false;
     }
 
     public int getCash() {

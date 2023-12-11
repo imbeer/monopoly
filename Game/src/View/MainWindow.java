@@ -40,7 +40,9 @@ public class MainWindow extends JFrame {
                 int x = e.getX();
                 int y = e.getY();
                 if (BUTTON.getBounds().contains(x, y)) {
-                    GAME.nextTurn();
+                    do {
+                        GAME.nextTurn();
+                    } while (GAME.getWorld().getActivePlayer().endTurn());
                     return;
                 }
                 for (Tile tile : WORLD.getMap()) {

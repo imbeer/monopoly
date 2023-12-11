@@ -16,6 +16,11 @@ public class Bot extends Player{
     }
 
     @Override
+    public boolean endTurn() {
+        return true;
+    }
+
+    @Override
     public Image getImage() {
         return BOT_ICON.getImage();
     }
