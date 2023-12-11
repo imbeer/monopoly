@@ -1,6 +1,7 @@
 package Game;
 
 import Entity.Players.Player;
+import Entity.Tiles.Tile;
 import Utils.Config;
 import View.GameView;
 import View.MessageBoxProxy;
@@ -78,6 +79,13 @@ public class Game {
         activePlayer.setTileIndex(newIndex);
         view.repaint();
         world.getMap()[newIndex].action(activePlayer);
+    }
+
+    public void showTile(Tile tile) {
+        if(MessageBoxProxy.drawTileInformation(tile, world.getActivePlayer())) {
+            tile.upgrade();
+            view.repaint();
+        }
     }
 
     private DiceRoll handleJail() {

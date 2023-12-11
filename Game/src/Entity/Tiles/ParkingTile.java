@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 public class ParkingTile extends Tile{
     public ParkingTile(int index) {
-        super("FREE PARKING", 0, 0, index);
+        super("FREE PARKING", 0, 0, index, null);
     }
 
     public void action(Player player) {

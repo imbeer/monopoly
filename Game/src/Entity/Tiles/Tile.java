@@ -1,6 +1,7 @@
 package Entity.Tiles;
 
 import Entity.Players.Player;
+import Entity.Street;
 import Utils.DrawUtils;
 
 import java.awt.*;
@@ -8,22 +9,24 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class Tile {
+    private int rent;
     public final String NAME;
     public final int PRICE;
-    public final int RENT;
     public final int INDEX;
     private Player owner;
+    private final Street STREET;
     protected Rectangle2D bounds;
 
-    public Tile(String name, int price, int rent, int index) {
+    public Tile(String name, int price, int rent, int index, Street street) {
+        this.rent = rent;
         NAME = name;
         PRICE = price;
-        RENT = rent;
         INDEX = index;
+        STREET = street;
     }
     public void action(Player player) {
         if (hasOwner()) {
-            player.sendCash(owner, RENT);
+            player.sendCash(owner, rent);
         } else {
             if (player.getCash() >= PRICE) {
                 boolean answer = player.ask("Do you want to buy " + NAME + "?", "BUY");
@@ -35,11 +38,24 @@ public class Tile {
         }
     }
 
+    public void upgrade() {
+        owner.payCash(PRICE);
+        rent *= 2;
+    }
+
+    public boolean canBeUpgraded(Player player) {
+        if (player == owner) {
+            return STREET.canBeUpgraded(player);
+        }
+        return false;
+    }
+
     public boolean hasOwner() {
         return owner != null;
     }
     public void setOwner(Player player) {
         owner = player;
+        STREET.addOwner(player);
     }
     public Player getOwner() {
         return owner;
@@ -88,23 +104,26 @@ public class Tile {
     }
 
     public void drawInBounds(Graphics2D g, Rectangle2D bounds) {
-        g.setColor(new Color(255, 255, 255));
+        String second = PRICE + " $";
+        String third = rent + " $";
+
+        g.setColor(STREET.STREET_COLOR);
         g.fill(bounds);
+
+        float thickness = 5;
+        double innerX = bounds.getX() + thickness;
+        double innerY = bounds.getY() + thickness;
+        double innerWidth = bounds.getWidth() - 2 * thickness;
+        double innerHeight = bounds.getHeight() - 2 * thickness;
+        Rectangle2D innerRect = new Rectangle2D.Double(innerX, innerY, innerWidth, innerHeight);
+
+        g.setColor(Color.white);
+        g.fill(innerRect);
         g.setColor(getColor());
-        g.fill(DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
-        g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(bounds, 0, 0.4));
-        String second;
-        String third;
-        if (!hasOwner()) {
-            second = PRICE + " $";
-            third = "";
-        } else {
-            second = "owner is " + owner.NAME;
-            third = RENT + " $";
-        }
-        DrawUtils.drawCenteredText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.5, 0.7));
-        DrawUtils.drawCenteredText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(bounds, 0.7, 1));
-        g.setColor(getColor());
+        g.fill(DrawUtils.getVerticalPartOfBounds(innerRect, 0, 0.4));
+        g.setColor(Color.black);
+        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, DrawUtils.getVerticalPartOfBounds(innerRect, 0, 0.4));
+        DrawUtils.drawCenteredText(DrawUtils.PRICE, second, g, DrawUtils.getVerticalPartOfBounds(innerRect, 0.5, 0.7));
+        DrawUtils.drawCenteredText(DrawUtils.PRICE, third, g, DrawUtils.getVerticalPartOfBounds(innerRect, 0.7, 1));
     }
 }

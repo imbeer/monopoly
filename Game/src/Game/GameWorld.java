@@ -3,6 +3,7 @@ package Game;
 
 import Entity.Players.Bot;
 import Entity.Players.Player;
+import Entity.Street;
 import Entity.Tiles.*;
 import Utils.Config;
 import View.MessageBoxProxy;
@@ -17,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameWorld {
     private Tile[] map;
     private Player[] players;
+    private Street[] streets;
     private LinkedList<Player> activePlayers;
     private ListIterator<Player> playerIterator;
     private Player activePlayer;
@@ -29,6 +31,7 @@ public class GameWorld {
     }
 
     public void start() {
+        fillStreets();
         fillMap();
         fillPlayers();
         isStarted = true;
@@ -71,17 +74,29 @@ public class GameWorld {
         }
 
         File names = new File("src/Assets/names.txt");
+        int streetsCounter = 0;
+        int streetsIndex = 0;
         try {
             Scanner scanner = new Scanner(names);
             for (int index = 0; index < Config.MAP_SIZE; index++) {
                 if (map[index] == null) {
-                    map[index] = new Tile(scanner.nextLine(), index * 10, index * 5, index);
+                    map[index] = new Tile(scanner.nextLine(), index * 10, index * 5, index, streets[streetsIndex]);
+                    streetsCounter++;
+                    if (streetsCounter == 2) {
+                        streetsCounter = 0;
+                        streetsIndex++;
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
             for (int index = 0; index < Config.MAP_SIZE; index++) {
                 if (map[index] == null) {
-                    map[index] = new Tile("Lorem Ipsum " + index, index * 10, index * 5, index);
+                    map[index] = new Tile("Lorem Ipsum " + index, index * 10, index * 5, index, streets[streetsIndex]);
+                    streetsCounter++;
+                    if (streetsCounter == 2) {
+                        streetsCounter = 0;
+                        streetsIndex++;
+                    }
                 }
             }
         }
@@ -106,6 +121,19 @@ public class GameWorld {
         }
         activePlayers = new LinkedList<>(Arrays.asList(players));
         playerIterator = activePlayers.listIterator(0);
+    }
+
+    private void fillStreets() {
+        streets = new Street[] {
+                new Street(new Color(221, 203, 129)),
+                new Street(new Color(219, 165, 127)),
+                new Street(new Color(177, 225, 138)),
+                new Street(new Color(128, 220, 195)),
+                new Street(new Color(227, 133, 133)),
+                new Street(new Color(223, 130, 180)),
+                new Street(new Color(198, 131, 224)),
+                new Street(new Color(132, 154, 225))
+        };
     }
 
     public Tile[] getMap() {

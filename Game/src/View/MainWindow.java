@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
                 }
                 for (Tile tile : WORLD.getMap()) {
                     if (tile.getBounds().contains(x, y)) {
-                        MessageBoxProxy.drawTileInformation(tile);
+                        GAME.showTile(tile);
                     }
                 }
             }

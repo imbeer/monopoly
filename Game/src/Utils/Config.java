@@ -9,4 +9,5 @@ public class Config {
     public static final int JAIL_INDEX = 6;
     public static final int PARK_INDEX = 12;
     public static final int GO_TO_JAIL_INDEX = 18;
+    public static final int STREET_CAPACITY = 2;
 }

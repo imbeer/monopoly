@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 public class StartTile extends Tile{
 
     public StartTile(int index) {
-        super("START", 0, 0, index);
+        super("START", 0, 0, index, null);
     }
 
     @Override
@@ -34,5 +34,10 @@ public class StartTile extends Tile{
         double yLeft = fieldBounds.getY() + (tilesInRow - 1) * tileHeight;
 
         bounds = new Rectangle2D.Double(xLeft, yLeft, tileWidth, tileHeight);
+    }
+
+    @Override
+    public boolean canBeUpgraded(Player player) {
+        return false;
     }
 }

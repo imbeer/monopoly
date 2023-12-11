@@ -11,7 +11,7 @@ public class GoToJailTile extends Tile{
     private final JailSystem SYSTEM;
 
     public GoToJailTile(int index, JailSystem system) {
-        super("GO TO JAIL", 0, 0, index);
+        super("GO TO JAIL", 0, 0, index, null);
         SYSTEM = system;
     }
 

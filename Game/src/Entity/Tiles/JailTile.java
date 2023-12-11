@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 public class JailTile extends Tile{
     public JailTile(int index) {
-        super("JAIL", 0, 0, index);
+        super("JAIL", 0, 0, index, null);
     }
 
     @Override

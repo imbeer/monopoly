@@ -45,7 +45,7 @@ public class ChanceTile extends Tile {
 
 
     public ChanceTile(int index, JailSystem system) {
-        super("CHANCE", 0, 0, index);
+        super("CHANCE", 0, 0, index, null);
         SYSTEM = system;
     }
 

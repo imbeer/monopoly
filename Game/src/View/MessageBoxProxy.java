@@ -1,10 +1,12 @@
 package View;
 
+import Entity.Players.Player;
 import Entity.Tiles.Tile;
 import Utils.DrawUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class MessageBoxProxy {
 
@@ -21,22 +23,24 @@ public class MessageBoxProxy {
         return JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE);
     }
 
-    public static void drawTileInformation(Tile tile) {
+    public static boolean drawTileInformation(Tile tile, Player activePlayer) {
         JPanel panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-
                 g.setColor(new Color(244, 255, 235));
-                g.fillRect(0, 0, this.getWidth(), this.getHeight());
-                g.setColor(new Color(0, 0, 0));
-                DrawUtils.drawCenteredText(DrawUtils.NAME, tile.NAME, (Graphics2D) g, this.getBounds());
+                tile.drawInBounds((Graphics2D) g, new Rectangle2D.Double(0, 0, 200, 200));
             }
-
             @Override
             public Dimension getPreferredSize() {
                 return new Dimension(200, 200);
             }
         };
-       JOptionPane.showMessageDialog(null, panel, tile.NAME, JOptionPane.PLAIN_MESSAGE);
+       if (tile.canBeUpgraded(activePlayer)) {
+           int result = JOptionPane.showConfirmDialog(null, panel, "Do you want to upgrade?", JOptionPane.YES_NO_OPTION);
+           return result == JOptionPane.YES_OPTION;
+       } else {
+           JOptionPane.showMessageDialog(null, panel, tile.NAME, JOptionPane.PLAIN_MESSAGE);
+           return false;
+       }
     }
 }
