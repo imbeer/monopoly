@@ -25,9 +25,6 @@ public class Street {
 
     public boolean canBeUpgraded(Player player) {
         for (Player owner : OWNERS) {
-//            if (owner == null) {
-//                return false;
-//            }
             if (player != owner) {
                 return false;
             }

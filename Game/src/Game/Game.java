@@ -6,30 +6,41 @@ import Utils.Config;
 import View.GameView;
 import View.MessageBoxProxy;
 
-import javax.swing.*;
 
 public class Game {
     private final GameView view;
     private final GameWorld world;
     private final JailSystem jailSystem;
+    private boolean gameStatus;
 
     public Game(GameView view) {
         jailSystem = new JailSystem();
         world = new GameWorld(jailSystem);
         this.view = view;
+        gameStatus = false;
     }
 
     public void start() {
         world.start();
+        gameStatus = true;
     }
 
     public void nextTurn() {
+        if (!gameStatus) {
+            start();
+        }
         world.nextPlayer();
         Player activePlayer = world.getActivePlayer();
         view.repaint();
 
         int count = 0;
         do {
+            if (world.isGameOver()) {
+                MessageBoxProxy.showMessage("Winner is " + world.getWinner().NAME + "!", "It's Over");
+                gameStatus = false;
+                return;
+            }
+
             if (activePlayer.isSkippingMove()) {
                 activePlayer.setSkippingMove(false);
                 return;

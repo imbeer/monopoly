@@ -148,8 +148,8 @@ public class GameWorld {
         return isStarted;
     }
 
-    public boolean hasNotBankruptPlayers() {
-        return activePlayers.size() > 1;
+    public boolean isGameOver() {
+        return activePlayers.size() <= 1;
     }
 
     public Player getWinner() {
