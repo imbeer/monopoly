@@ -149,7 +149,7 @@ public class GameWorld {
     }
 
     public boolean isGameOver() {
-        return activePlayers.size() <= 1;
+        return Arrays.stream(players).filter(Player::isBankrupt).count() > 2;
     }
 
     public Player getWinner() {

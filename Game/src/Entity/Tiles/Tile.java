@@ -25,6 +25,9 @@ public class Tile {
         STREET = street;
     }
     public void action(Player player) {
+        if (player.getTileIndex() != INDEX) {
+            return;
+        }
         if (hasOwner()) {
             player.sendCash(owner, rent);
         } else {
@@ -55,10 +58,14 @@ public class Tile {
     }
     public void setOwner(Player player) {
         owner = player;
-        STREET.addOwner(player);
+        STREET.addOwner(player, INDEX);
     }
     public Player getOwner() {
         return owner;
+    }
+
+    public int getRent() {
+        return rent;
     }
 
     public void draw(Graphics2D g, Rectangle2D fieldBounds, int tilesInRow) {

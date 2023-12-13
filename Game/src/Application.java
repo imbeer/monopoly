@@ -1,4 +1,3 @@
-import Game.Game;
 import View.MainWindow;
 
 public class Application {
