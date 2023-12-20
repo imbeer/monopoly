@@ -66,19 +66,13 @@ public class DrawUtils {
     public static BufferedImage scale(BufferedImage src, int w, int h)
     {
         BufferedImage img =
-                new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        int x, y;
-        int ww = src.getWidth();
-        int hh = src.getHeight();
-        int[] ys = new int[h];
-        for (y = 0; y < h; y++)
-            ys[y] = y * hh / h;
-        for (x = 0; x < w; x++) {
-            int newX = x * ww / w;
-            for (y = 0; y < h; y++) {
-                int col = src.getRGB(newX, ys[y]);
-                img.setRGB(x, y, col);
-            }
+                new BufferedImage(w, h, src.getType());
+        Graphics2D g2d = img.createGraphics();
+        try {
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2d.drawImage(src, 0, 0, w, h, null);
+        } finally {
+            g2d.dispose();
         }
         return img;
     }
