@@ -1,8 +1,7 @@
-package Entity.Players;
+package entity.players;
 
-import Entity.Tiles.Tile;
-import Utils.DrawUtils;
-import View.MessageBoxProxy;
+import utils.DrawUtils;
+import view.MessageBoxProxy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,20 +9,20 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class Player {
-    public final String NAME;
+    private final ImageIcon PLAYER_ICON = new ImageIcon("src/Assets/monopoly_player.png");
+    public final String name;
     private int cash;
     private int tileIndex;
     private boolean isBankrupt;
     private boolean isSkippingMove;
     private boolean isInJail;
     private int jailEscapeCards;
-    private final ImageIcon PLAYER_ICON = new ImageIcon("src/Assets/monopoly_player.png");
-    public final Color PLAYER_COLOR;
+    public final Color playerColor;
 
     public Player(int cash, int tileIndex, String name, Color playerColor) {
         this.cash = cash;
-        this.NAME = name;
-        this.PLAYER_COLOR = playerColor;
+        this.name = name;
+        this.playerColor = playerColor;
         this.tileIndex = tileIndex;
         this.isBankrupt = false;
         this.isSkippingMove = false;
@@ -34,6 +33,7 @@ public class Player {
     public boolean ask(String message, String title) {
         return MessageBoxProxy.getAnswer(message, title);
     }
+
     public boolean endTurn() {
         return false;
     }
@@ -109,7 +109,7 @@ public class Player {
 
         Graphics2D imageGraphics = bufferedImage.createGraphics();
         imageGraphics.drawImage(image, 0, 0, null);
-        DrawUtils.colorImage(bufferedImage, PLAYER_COLOR);
+        DrawUtils.colorImage(bufferedImage, playerColor);
         imageGraphics.dispose();
         bufferedImage = DrawUtils.scale(bufferedImage, (int) bounds.getWidth(), (int) bounds.getHeight());
 

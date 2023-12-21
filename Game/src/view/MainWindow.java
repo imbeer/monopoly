@@ -1,27 +1,27 @@
-package View;
+package view;
 
-import Entity.Tiles.Tile;
-import Game.*;
+import entity.tiles.Tile;
+import game.*;
 
 import javax.swing.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame {
     private GameView view;
-    public final GameWorld WORLD;
-    public final Game GAME;
-    public final NextTurnButton BUTTON;
+    public final GameWorld gameWorld;
+    public final Game game;
+    public final NextTurnButton nextTurnButton;
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setVisible(true);
 
-        BUTTON = new NextTurnButton();
-        view = new GameView(this.getWidth(), this.getHeight(), BUTTON);
-        GAME = new Game(view);
-        WORLD = GAME.getWorld();
-        view.setWorld(WORLD);
+        nextTurnButton = new NextTurnButton();
+        view = new GameView(this.getWidth(), this.getHeight(), nextTurnButton);
+        game = new Game(view);
+        gameWorld = game.getWorld();
+        view.setWorld(gameWorld);
 
         this.add(view);
         this.addKeyListener(new KeyAdapter() {
@@ -39,15 +39,15 @@ public class MainWindow extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
-                if (BUTTON.getBounds().contains(x, y)) {
+                if (nextTurnButton.getBounds().contains(x, y)) {
                     do {
-                        GAME.nextTurn();
-                    } while (GAME.getWorld().getActivePlayer().endTurn());
+                        game.nextTurn();
+                    } while (game.getWorld().getActivePlayer().endTurn());
                     return;
                 }
-                for (Tile tile : WORLD.getMap()) {
+                for (Tile tile : gameWorld.getMap()) {
                     if (tile.getBounds().contains(x, y)) {
-                        GAME.showTile(tile);
+                        game.showTile(tile);
                     }
                 }
             }

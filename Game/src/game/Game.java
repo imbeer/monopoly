@@ -1,10 +1,10 @@
-package Game;
+package game;
 
-import Entity.Players.Player;
-import Entity.Tiles.Tile;
-import Utils.Config;
-import View.GameView;
-import View.MessageBoxProxy;
+import entity.players.Player;
+import entity.tiles.Tile;
+import utils.Config;
+import view.GameView;
+import view.MessageBoxProxy;
 
 
 public class Game {
@@ -36,7 +36,7 @@ public class Game {
         int count = 0;
         do {
             if (world.isGameOver()) {
-                MessageBoxProxy.showMessage("Winner is " + world.getWinner().NAME + "!", "It's Over");
+                MessageBoxProxy.showMessage("Winner is " + world.getWinner().name + "!", "It's Over");
                 gameStatus = false;
                 return;
             }
@@ -120,11 +120,11 @@ public class Game {
 
         DiceRoll roll = roll();
         if (roll.isDouble()) {
-            MessageBoxProxy.showMessage("Successfully escape jail because of good luck", "Escape Completed");
+            MessageBoxProxy.showMessage("Successfully escaped jail because of good luck", "Escape Completed");
             activePlayer.setInJail(false);
             return roll;
         } else {
-            MessageBoxProxy.showMessage("Unfortunately lack of luck", "Escape Failed");
+            MessageBoxProxy.showMessage("Unfortunately, lack of luck", "Escape Failed");
             return null;
         }
     }

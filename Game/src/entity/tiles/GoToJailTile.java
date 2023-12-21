@@ -1,18 +1,24 @@
-package Entity.Tiles;
+package entity.tiles;
 
-import Entity.Players.Player;
-import Utils.DrawUtils;
+import entity.players.Player;
+import game.JailSystem;
+import utils.DrawUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class JailTile extends Tile{
-    public JailTile(int index) {
-        super("JAIL", 0, 0, index, null);
+public class GoToJailTile extends Tile{
+    private final JailSystem jailSystem;
+
+    public GoToJailTile(int index, JailSystem system) {
+        super("GO TO JAIL", 0, 0, index, null);
+        this.jailSystem = system;
     }
 
     @Override
-    public void action(Player player) {}
+    public void action(Player player) {
+        jailSystem.goToJail(player);
+    }
 
     @Override
     public void draw(Graphics2D g, Rectangle2D fieldBounds, int tilesInRow) {
@@ -27,9 +33,9 @@ public class JailTile extends Tile{
     @Override
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {
         double tileWidth = fieldBounds.getWidth() / tilesInRow;
-        double tileHeight = fieldBounds.getHeight() / tilesInRow;;
-        double xLeft = fieldBounds.getX();
-        double yLeft = fieldBounds.getY() + (tilesInRow - 1) * tileHeight;
+        double tileHeight = fieldBounds.getHeight() / tilesInRow;
+        double xLeft = fieldBounds.getX() + (tilesInRow - 1) * tileWidth;
+        double yLeft = fieldBounds.getY();
 
         bounds = new Rectangle2D.Double(xLeft, yLeft, tileWidth, tileHeight);
     }

@@ -1,19 +1,18 @@
-package Entity.Tiles;
+package entity.tiles;
 
-import Entity.Players.Player;
-import Utils.DrawUtils;
+import entity.players.Player;
+import utils.DrawUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class ParkingTile extends Tile{
-    public ParkingTile(int index) {
-        super("FREE PARKING", 0, 0, index, null);
+public class JailTile extends Tile{
+    public JailTile(int index) {
+        super("JAIL", 0, 0, index, null);
     }
 
-    public void action(Player player) {
-        player.setSkippingMove(true);
-    }
+    @Override
+    public void action(Player player) {}
 
     @Override
     public void draw(Graphics2D g, Rectangle2D fieldBounds, int tilesInRow) {
@@ -25,13 +24,12 @@ public class ParkingTile extends Tile{
         g.setColor(new Color(0, 0, 0));
         DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, bounds);
     }
-
     @Override
     protected void fillTileBounds(Rectangle2D fieldBounds, int tilesInRow) {
         double tileWidth = fieldBounds.getWidth() / tilesInRow;
         double tileHeight = fieldBounds.getHeight() / tilesInRow;;
         double xLeft = fieldBounds.getX();
-        double yLeft = fieldBounds.getY();
+        double yLeft = fieldBounds.getY() + (tilesInRow - 1) * tileHeight;
 
         bounds = new Rectangle2D.Double(xLeft, yLeft, tileWidth, tileHeight);
     }

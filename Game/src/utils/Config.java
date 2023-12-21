@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 public class Config {
     public static final int START_CASH = 1000;

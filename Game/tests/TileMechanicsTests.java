@@ -1,10 +1,12 @@
-import Entity.Players.Player;
-import Entity.Street;
-import Entity.Tiles.Tile;
+import entity.players.Player;
+import entity.Street;
+import entity.tiles.Tile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TileMechanicsTests {
 
@@ -14,9 +16,9 @@ public class TileMechanicsTests {
         Tile tile1 = new Tile("tileName1", 100, 50, 0, street);
         Player player1 = new Player(200, 0, "name", Color.black);
         tile1.action(player1);
-        Assertions.assertTrue(tile1.hasOwner());
-        Assertions.assertSame(player1, tile1.getOwner());
-        Assertions.assertEquals(100, player1.getCash());
+        assertTrue(tile1.hasOwner());
+        assertSame(player1, tile1.getOwner());
+        assertEquals(100, player1.getCash());
 
 
 
@@ -35,9 +37,9 @@ public class TileMechanicsTests {
 
         tile1.setOwner(player1);
         tile1.action(player2);
-        Assertions.assertSame(player1, tile1.getOwner());
-        Assertions.assertEquals(50, player2.getCash());
-        Assertions.assertEquals(150, player1.getCash());
+        assertSame(player1, tile1.getOwner());
+        assertEquals(50, player2.getCash());
+        assertEquals(150, player1.getCash());
     }
 
     @Test
@@ -50,31 +52,31 @@ public class TileMechanicsTests {
         Player player2 = new Player(100, 0, "name1", Color.black);
 
         tile1.setOwner(player1);
-        Assertions.assertFalse(tile1.canBeUpgraded(player1));
+        assertFalse(tile1.canBeUpgraded(player1));
         tile2.setOwner(player2);
-        Assertions.assertFalse(tile1.canBeUpgraded(player1));
-        Assertions.assertFalse(tile2.canBeUpgraded(player1));
-        Assertions.assertFalse(tile1.canBeUpgraded(player2));
-        Assertions.assertFalse(tile2.canBeUpgraded(player2));
+        assertFalse(tile1.canBeUpgraded(player1));
+        assertFalse(tile2.canBeUpgraded(player1));
+        assertFalse(tile1.canBeUpgraded(player2));
+        assertFalse(tile2.canBeUpgraded(player2));
 
         tile2.setOwner(player1);
 
-        Assertions.assertTrue(tile1.canBeUpgraded(player1));
-        Assertions.assertTrue(tile2.canBeUpgraded(player1));
-        Assertions.assertFalse(tile1.canBeUpgraded(player2));
-        Assertions.assertFalse(tile2.canBeUpgraded(player2));
+        assertTrue(tile1.canBeUpgraded(player1));
+        assertTrue(tile2.canBeUpgraded(player1));
+        assertFalse(tile1.canBeUpgraded(player2));
+        assertFalse(tile2.canBeUpgraded(player2));
 
-        Assertions.assertEquals(50, tile1.getRent());
+        assertEquals(50, tile1.getRent());
 
         tile1.upgrade();
 
-        Assertions.assertEquals(100, player1.getCash());
-        Assertions.assertEquals(100, tile1.getRent());
+        assertEquals(100, player1.getCash());
+        assertEquals(100, tile1.getRent());
 
         tile1.action(player2);
 
-        Assertions.assertEquals(200, player1.getCash());
-        Assertions.assertEquals(0, player2.getCash());
-        Assertions.assertTrue(player2.isBankrupt());
+        assertEquals(200, player1.getCash());
+        assertEquals(0, player2.getCash());
+        assertTrue(player2.isBankrupt());
     }
 }

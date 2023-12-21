@@ -1,9 +1,9 @@
-package Entity.Tiles;
+package entity.tiles;
 
-import Entity.Players.Player;
-import Game.JailSystem;
-import Utils.DrawUtils;
-import View.MessageBoxProxy;
+import entity.players.Player;
+import game.JailSystem;
+import utils.DrawUtils;
+import view.MessageBoxProxy;
 
 import javax.swing.*;
 import java.awt.*;

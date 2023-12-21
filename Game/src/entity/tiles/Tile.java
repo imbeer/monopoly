@@ -1,20 +1,19 @@
-package Entity.Tiles;
+package entity.tiles;
 
-import Entity.Players.Player;
-import Entity.Street;
-import Utils.DrawUtils;
+import entity.players.Player;
+import entity.Street;
+import utils.DrawUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 public class Tile {
-    private int rent;
     public final String NAME;
     public final int PRICE;
     public final int INDEX;
-    private Player owner;
     private final Street STREET;
+    private int rent;
+    private Player owner;
     protected Rectangle2D bounds;
 
     public Tile(String name, int price, int rent, int index, Street street) {
@@ -106,7 +105,7 @@ public class Tile {
         if (!hasOwner()) {
             return new Color(255, 255, 255);
         } else {
-            return owner.PLAYER_COLOR;
+            return owner.playerColor;
         }
     }
 
@@ -114,7 +113,7 @@ public class Tile {
         String second = PRICE + " $";
         String third = rent + " $";
 
-        g.setColor(STREET.STREET_COLOR);
+        g.setColor(STREET.streetColor);
         g.fill(bounds);
 
         float thickness = 5;

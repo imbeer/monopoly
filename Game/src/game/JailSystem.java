@@ -1,8 +1,8 @@
-package Game;
+package game;
 
-import Entity.Players.Player;
-import Utils.Config;
-import View.MessageBoxProxy;
+import entity.players.Player;
+import utils.Config;
+import view.MessageBoxProxy;
 
 public class JailSystem {
     public JailSystem() {

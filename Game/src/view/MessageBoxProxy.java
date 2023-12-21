@@ -1,8 +1,7 @@
-package View;
+package view;
 
-import Entity.Players.Player;
-import Entity.Tiles.Tile;
-import Utils.DrawUtils;
+import entity.players.Player;
+import entity.tiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;

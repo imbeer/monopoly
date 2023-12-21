@@ -1,6 +1,6 @@
-package View;
+package view;
 
-import Utils.DrawUtils;
+import utils.DrawUtils;
 
 import javax.swing.*;
 import java.awt.*;

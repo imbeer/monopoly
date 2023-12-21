@@ -1,12 +1,12 @@
-package Game;
+package game;
 
 
-import Entity.Players.Bot;
-import Entity.Players.Player;
-import Entity.Street;
-import Entity.Tiles.*;
-import Utils.Config;
-import View.MessageBoxProxy;
+import entity.players.Bot;
+import entity.players.Player;
+import entity.Street;
+import entity.tiles.*;
+import utils.Config;
+import view.MessageBoxProxy;
 
 import java.awt.*;
 import java.io.File;
@@ -24,10 +24,10 @@ public class GameWorld {
     private Player activePlayer;
     private DiceRoll activeDiceRoll;
     private boolean isStarted = false;
-    private final JailSystem JAIL_SYSTEM;
+    private final JailSystem jailSystem;
 
     public GameWorld(JailSystem jailSystem) {
-        JAIL_SYSTEM = jailSystem;
+        this.jailSystem = jailSystem;
     }
 
     public void start() {
@@ -66,11 +66,11 @@ public class GameWorld {
         map[Config.START_INDEX] = new StartTile(Config.START_INDEX);
         map[Config.JAIL_INDEX] = new JailTile(Config.JAIL_INDEX);
         map[Config.PARK_INDEX] = new ParkingTile(Config.PARK_INDEX);
-        map[Config.GO_TO_JAIL_INDEX] = new GoToJailTile(Config.GO_TO_JAIL_INDEX, JAIL_SYSTEM);
+        map[Config.GO_TO_JAIL_INDEX] = new GoToJailTile(Config.GO_TO_JAIL_INDEX, jailSystem);
 
         for (int i = 0; i <= Config.MAP_SIZE - Config.MAP_SIZE / 4; i += Config.MAP_SIZE / 4) {
             int index = i + ThreadLocalRandom.current().nextInt(1, Config.MAP_SIZE / 4);
-            map[index] = new ChanceTile(index, JAIL_SYSTEM);
+            map[index] = new ChanceTile(index, jailSystem);
         }
 
         File names = new File("src/Assets/names.txt");

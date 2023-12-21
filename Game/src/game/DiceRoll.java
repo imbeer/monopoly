@@ -1,6 +1,4 @@
-package Game;
-
-import View.MessageBoxProxy;
+package game;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
