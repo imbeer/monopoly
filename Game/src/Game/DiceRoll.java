@@ -17,6 +17,10 @@ public class DiceRoll {
         secondRoll = random.nextInt(1, 7);
     }
 
+    public DiceRoll(int first, int second) {
+        firstRoll = first;
+        secondRoll = second;
+    }
     public int getFirstRoll() {
         return firstRoll;
     }

@@ -61,7 +61,7 @@ public class GameWorld {
         return 5;
     }
 
-    private void fillMap() {
+    public void fillMap() {
         map = new Tile[Config.MAP_SIZE];
         map[Config.START_INDEX] = new StartTile(Config.START_INDEX);
         map[Config.JAIL_INDEX] = new JailTile(Config.JAIL_INDEX);
@@ -102,7 +102,7 @@ public class GameWorld {
         }
     }
 
-    private void fillPlayers() {
+    public void fillPlayers() {
         players = new Player[4];
         Color[] colors = new Color[]{
                 new Color(246, 91, 91),
@@ -123,7 +123,7 @@ public class GameWorld {
         playerIterator = activePlayers.listIterator(0);
     }
 
-    private void fillStreets() {
+    public void fillStreets() {
         streets = new Street[] {
                 new Street(new Color(221, 203, 129)),
                 new Street(new Color(219, 165, 127)),
@@ -142,6 +142,10 @@ public class GameWorld {
 
     public Player[] getPlayers() {
         return players;
+    }
+    public void setPlayers(Player[] players) {
+        this.players = players;
+        activePlayers = new LinkedList<>(Arrays.asList(players));
     }
 
     public boolean isStarted() {

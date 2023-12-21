@@ -1,6 +1,10 @@
+import Game.Game;
+import Game.DiceRoll;
 import Game.GameWorld;
 import Game.JailSystem;
 import Utils.Config;
+import View.GameView;
+import View.NextTurnButton;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -43,10 +47,36 @@ public class GameWorldTests {
         Assertions.assertEquals(3, world.getActivePlayerIndex());
         world.nextPlayer(); // 1
         Assertions.assertEquals(1, world.getActivePlayerIndex());
-        world.getPlayers()[2].payCash(Config.START_CASH);
+        world.getPlayers()[2].payCash(world.getPlayers()[2].getCash());
         world.nextPlayer();
         Assertions.assertEquals(3, world.getActivePlayerIndex());
     }
 
+    @Test
+    public void moveTest() {
+        Game game = new Game(new GameView(0, 0, new NextTurnButton()));
+        game.start();
+        game.getWorld().nextPlayer();
+        DiceRoll roll = new DiceRoll(0, Config.GO_TO_JAIL_INDEX); // проверка тюрьмы
+        game.movePlayer(roll);
+        Assertions.assertTrue(game.getWorld().getActivePlayer().isInJail());
+        Assertions.assertEquals(Config.JAIL_INDEX,
+                game.getWorld().getActivePlayer().getTileIndex());
+
+        game.getWorld().nextPlayer();
+        DiceRoll roll2 = new DiceRoll(1, 1); // проверка просто хода
+        game.movePlayer(roll2);
+        Assertions.assertEquals(2,
+                game.getWorld().getActivePlayer().getTileIndex());
+
+        game.getWorld().nextPlayer();
+        game.getWorld().getActivePlayer().setTileIndex(Config.MAP_SIZE - 1);
+        DiceRoll roll3 = new DiceRoll(0, 1); // проверка добавления денег при завершении круга
+        game.movePlayer(roll3);
+        Assertions.assertEquals(0,
+                game.getWorld().getActivePlayer().getTileIndex());
+        Assertions.assertEquals(Config.START_CASH + Config.ROUND_CASH,
+                game.getWorld().getActivePlayer().getCash());
+    }
 
 }
