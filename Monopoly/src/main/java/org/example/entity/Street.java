@@ -55,6 +55,9 @@ public class Street {
      * @return true, если хозяин всех клеток на улице, false, если хотя бы у одной клетки другой хозяин
      */
     public boolean canBeUpgraded(Player player) {
+        if (player == null) {
+            return false;
+        }
         for (Player owner : owners) {
             if (player != owner) {
                 return false;
