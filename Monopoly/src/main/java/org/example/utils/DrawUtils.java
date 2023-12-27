@@ -4,10 +4,20 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * Утилиты, упрощающие работу с JSwing
+ */
 public class DrawUtils {
     public static final Font NAME = new Font("Arial", Font.BOLD, 18);
     public static final Font PRICE = new Font("Arial", Font.BOLD, 18);
 
+    /**
+     * Рисует центрированный текст в прямоугольнике
+     * @param font шрифт
+     * @param text текст
+     * @param g отрисовщик
+     * @param bounds прямоугольник, в котором нужно центрировать
+     */
     public static void drawCenteredText(Font font, String text, Graphics2D g, Rectangle2D bounds) {
         g.setFont(font);
         FontMetrics metrics = g.getFontMetrics(font);
@@ -16,6 +26,13 @@ public class DrawUtils {
         g.drawString(text, x, y);
     }
 
+    /**
+     * Просто рисует текст в прямоугольнике
+     * @param font шрифт
+     * @param text текст
+     * @param g отрисовщик
+     * @param bounds границы
+     */
     public static void drawText(Font font, String text, Graphics2D g, Rectangle2D bounds) {
         g.setFont(font);
         int x = (int) bounds.getX();
@@ -23,6 +40,13 @@ public class DrawUtils {
         g.drawString(text, x, y);
     }
 
+    /**
+     * Выдает часть от прямоугольника с нужными соотношениям y и высоты.
+     * @param orig оригинальный прямоугольник
+     * @param firstLine отношение от 0:1 первой линии
+     * @param secondLine отношение от 0:1 второй линии
+     * @return копию прямоугольника с нужными сторонами
+     */
     public static Rectangle2D getVerticalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {
         firstLine = orig.getY() + orig.getHeight() * firstLine;
         secondLine = orig.getY() + orig.getHeight() * secondLine;
@@ -34,6 +58,13 @@ public class DrawUtils {
         );
     }
 
+    /**
+     * Выдает часть от прямоугольника с нужными соотношениям x и ширины.
+     * @param orig оригинальный прямоугольник
+     * @param firstLine отношение от 0:1 первой линии
+     * @param secondLine отношение от 0:1 второй линии
+     * @return копию прямоугольника с нужными сторонами
+     */
     public static Rectangle2D getHorizontalPartOfBounds(Rectangle2D orig, double firstLine, double secondLine) {
         firstLine = orig.getX() + orig.getWidth() * firstLine;
         secondLine = orig.getX() + orig.getWidth() * secondLine;
@@ -45,10 +76,21 @@ public class DrawUtils {
         );
     }
 
+    /**
+     * Получает отступ для центрирования чего-либо
+     * @param fullLength длина, внутри которой нужно центрировать
+     * @param shortLength длина, которую центрируем
+     * @return отступ левой части
+     */
     public static double getNewBoundCentered(double fullLength, double shortLength) {
         return (fullLength - shortLength) / 2;
     }
 
+    /**
+     * Раскрашивает изображение в один цвет
+     * @param bImage изображение, которое нужно перекрасить
+     * @param color цвет
+     */
     public static void colorImage(BufferedImage bImage, Color color) {
         for (int x = 0; x < bImage.getWidth(); x++) {
             for (int y = 0; y < bImage.getHeight(); y++) {
@@ -61,8 +103,13 @@ public class DrawUtils {
         }
     }
 
-
-
+    /**
+     * Масштабирование изображения
+     * @param src исходное изображения
+     * @param w новая ширина
+     * @param h новая высота
+     * @return копия изображения с новыми параметрами
+     */
     public static BufferedImage scale(BufferedImage src, int w, int h)
     {
         BufferedImage img =

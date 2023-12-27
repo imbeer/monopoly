@@ -38,7 +38,7 @@ public class MessageBoxProxy {
            int result = JOptionPane.showConfirmDialog(null, panel, "Do you want to upgrade?", JOptionPane.YES_NO_OPTION);
            return result == JOptionPane.YES_OPTION;
        } else {
-           JOptionPane.showMessageDialog(null, panel, tile.NAME, JOptionPane.PLAIN_MESSAGE);
+           JOptionPane.showMessageDialog(null, panel, tile.name, JOptionPane.PLAIN_MESSAGE);
            return false;
        }
     }

@@ -62,6 +62,4 @@ public class MainWindow extends JFrame {
     public void setView(GameView view) {
         this.view = view;
     }
-
-
 }

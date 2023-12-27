@@ -6,11 +6,25 @@ import org.example.utils.Config;
 import org.example.view.GameView;
 import org.example.view.MessageBoxProxy;
 
-
+/**
+ * Класс,отвечающий за течение самой игры. По сути синглтон
+ */
 public class Game {
+    /**
+     * Вид, который будет обновляться при изменении чего-то в игре.
+     */
     private final GameView view;
+    /**
+     * Игровой мир игры
+     */
     private final GameWorld world;
+    /**
+     * Система, отвечающая за отправку игрока в тюрьму
+     */
     private final JailSystem jailSystem;
+    /**
+     * Состояние игры
+     */
     private boolean gameStatus;
 
     public Game(GameView view) {
@@ -20,11 +34,18 @@ public class Game {
         gameStatus = false;
     }
 
+    /**
+     * Запускает игровой мир и игру.
+     */
     public void start() {
         world.start();
         gameStatus = true;
     }
 
+    /**
+     * Метод следующего хода.
+     * Каждый ход игра меняет активного игрока (пошаговость), проверяет его состояния и двигает игрока. Если игроку выпал дубль, ход повторяется. (до трех раз)
+     */
     public void nextTurn() {
         if (!gameStatus) {
             start();
@@ -77,6 +98,10 @@ public class Game {
         view.repaint();
     }
 
+    /**
+     * Передвигает игрока на значения выпавших кубиков. Выполняет действие клетки
+     * @param roll
+     */
     public void movePlayer(DiceRoll roll) {
         int step = roll.getSum();
         Player activePlayer = world.getActivePlayer();
@@ -99,6 +124,10 @@ public class Game {
         }
     }
 
+    /**
+     * Обрабатывает тюрьму, сначала карточки бесплатного выхода, потом штраф, потом кидает кубики, пока не выпадет дубль.
+     * @return брошеные кубики, если они были кинуты
+     */
     private DiceRoll handleJail() {
         Player activePlayer = world.getActivePlayer();
         if (activePlayer.hasJailEscapeCards()) {
@@ -129,6 +158,10 @@ public class Game {
         }
     }
 
+    /**
+     * Бросает новые кубики
+     * @return новый экземпляр DiceRoll
+     */
     private DiceRoll roll() {
         DiceRoll roll = new DiceRoll();
         world.setActiveDiceRoll(roll);

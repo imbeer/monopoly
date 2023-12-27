@@ -11,14 +11,35 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Компонент, отвечающий за отрисовку всей игры. Наследуется от JPanel. Знает информацию об игровом мире.
+ */
 public class GameView extends JPanel {
+    /**
+     * Игровой мир
+     */
     private GameWorld world;
     private final int panelWidth;
     private final int panelHeight;
+    /**
+     * Периметр поля клеточек
+     */
     private final Rectangle2D fieldBounds;
+    /**
+     * Левая часть панели до поля
+     */
     private final Rectangle2D leftMenuBounds;
+    /**
+     * Правая часть панели после поля
+     */
     private final Rectangle2D rightMenuBounds;
+    /**
+     * Количество клеток в ряду
+     */
     private final int tilesInRow;
+    /**
+     * Кнопка следующего хода
+     */
     private final NextTurnButton nextTurnButton;
 
     public GameView(int panelWidth, int panelHeight, NextTurnButton button) {
@@ -35,6 +56,10 @@ public class GameView extends JPanel {
         nextTurnButton = button;
     }
 
+    /**
+     * Переопределенный метод, отвечающий за отрисовку компонента
+     * @param g
+     */
     @Override
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
@@ -58,6 +83,10 @@ public class GameView extends JPanel {
         return (int) (panelHeight / (tilesInRow) * 0.9);
     }
 
+    /**
+     * Отрисовывает фон из клеточек
+     * @param g2d
+     */
     private void drawBackGround(Graphics2D g2d){
         Color dark = new Color(69, 86, 61);
         Color light = new Color(88, 107, 77);
@@ -74,12 +103,20 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Рисует все клетки из игрового мира
+     * @param g2d
+     */
     private void drawTiles(Graphics2D g2d) {
         for (Tile tile : world.getMap()) {
             tile.draw(g2d, fieldBounds, tilesInRow);
         }
     }
 
+    /**
+     * Рисует всех игроков из игрового мира
+     * @param g2d
+     */
     private void drawPlayers(Graphics2D g2d) {
         for (int i = 0; i < world.getPlayers().length; i++) {
             Player player = world.getPlayers()[i];
@@ -92,6 +129,10 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Рисует меню (список игроков)
+     * @param g2d
+     */
     private void drawMenu(Graphics2D g2d) {
         for (int i = 0; i < world.getPlayers().length; i++) {
             Rectangle2D playerBounds = DrawUtils.getVerticalPartOfBounds(leftMenuBounds, 0.25 * i, 0.25 * (i + 1));
@@ -118,6 +159,10 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Рисует последние выпавшие кубики из игрового мира
+     * @param g2d
+     */
     private void drawDice(Graphics2D g2d) {
         DiceRoll roll = world.getActiveDiceRoll();
         double width = (double) (getTileHeight() * 3) / 2;
@@ -136,14 +181,15 @@ public class GameView extends JPanel {
         }
     }
 
+    /**
+     * Рисует кнопку следующего хода
+     * @param g2d
+     */
     private void drawButton(Graphics2D g2d) {
         double leftX = rightMenuBounds.getMaxX() - 2 * getTileHeight();
         double leftY = rightMenuBounds.getMaxY() - (double) getTileHeight() / 2;
         Rectangle2D buttonBounds = new Rectangle2D.Double(leftX, leftY, 2 * getTileHeight(), (double) getTileHeight() / 2);
         nextTurnButton.draw(g2d, buttonBounds);
-    }
-    public GameWorld getWorld() {
-        return world;
     }
 
     public void setWorld(GameWorld world) {

@@ -1,6 +1,5 @@
 package org.example.game;
 
-
 import org.example.entity.players.Bot;
 import org.example.entity.players.Player;
 import org.example.entity.Street;
@@ -14,22 +13,54 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+/**
+ * Класс игрового мира. Является хранилищем всех игроков, клеточек, улиц.
+ */
 public class GameWorld {
+    /**
+     * Массив клеточек
+     */
     private Tile[] map;
+    /**
+     * Массив всех игроков
+     */
     private Player[] players;
+    /**
+     * Массив всех улиц
+     */
     private Street[] streets;
+    /**
+     * Список только активных, еще не обанкротившихся игроков
+     */
     private LinkedList<Player> activePlayers;
+    /**
+     * Итератор списка активных игроков
+     */
     private ListIterator<Player> playerIterator;
+    /**
+     * Активный игрок (тот, кто ходит)
+     */
     private Player activePlayer;
+    /**
+     * Последний брошеный кубик (нужно для отрисовки)
+     */
     private DiceRoll activeDiceRoll;
+    /**
+     * Статус, запущен ли мир
+     */
     private boolean isStarted = false;
+    /**
+     * Система отправки в тюрьму
+     */
     private final JailSystem jailSystem;
 
     public GameWorld(JailSystem jailSystem) {
         this.jailSystem = jailSystem;
     }
 
+    /**
+     * Запускает игровой мир - заново создает карту и игроков.
+     */
     public void start() {
         fillStreets();
         fillMap();
@@ -37,6 +68,9 @@ public class GameWorld {
         isStarted = true;
     }
 
+    /**
+     * Переключает активного игрока. Если список подошел к концу, перезапускает итератор. Если игрок банкрот - его выкидывает из списка.
+     */
     public void nextPlayer() {
         if (!playerIterator.hasNext()) {
             playerIterator = activePlayers.listIterator(0);
@@ -61,6 +95,9 @@ public class GameWorld {
         return 5;
     }
 
+    /**
+     * Заполняет карту клетками. Клетки со случайными эффектами расставляются случайно по одной на стороне.
+     */
     public void fillMap() {
         map = new Tile[Config.MAP_SIZE];
         map[Config.START_INDEX] = new StartTile(Config.START_INDEX);
@@ -102,6 +139,9 @@ public class GameWorld {
         }
     }
 
+    /**
+     * Заполняет игроков
+     */
     public void fillPlayers() {
         players = new Player[4];
         Color[] colors = new Color[]{
@@ -123,6 +163,9 @@ public class GameWorld {
         playerIterator = activePlayers.listIterator(0);
     }
 
+    /**
+     * Заполняет улицы
+     */
     public void fillStreets() {
         streets = new Street[] {
                 new Street(new Color(221, 203, 129)),
@@ -152,10 +195,18 @@ public class GameWorld {
         return isStarted;
     }
 
+    /**
+     * Проверяет, сколько осталось игроков не банкротов
+     * @return true, если два и больше, false, если только один или меньше (игра закончена)
+     */
     public boolean isGameOver() {
-        return Arrays.stream(players).filter(Player::isBankrupt).count() > 2;
+        return Arrays.stream(players).filter(Player::isBankrupt).count() > players.length - 2;
     }
 
+    /**
+     * Получает победителя
+     * @return игрок с максимальным количеством денег
+     */
     public Player getWinner() {
         return Arrays.stream(players).max(Comparator.comparingInt(Player::getCash)).orElse(null);
     }

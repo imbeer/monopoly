@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * Кнопка следующего хода. Просто болванка с текстурой и координатами.
+ */
 public class NextTurnButton {
     private Rectangle2D bounds;
 

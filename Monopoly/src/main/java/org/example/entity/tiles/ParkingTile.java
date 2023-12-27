@@ -6,6 +6,10 @@ import org.example.utils.DrawUtils;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Класс потомок tile. Означает парковочную клетку. Отличается отрисовкой и действием при наступлении на клетку.
+ * При наступлении на клетку игрок пропускает ход.
+ */
 public class ParkingTile extends Tile{
     public ParkingTile(int index) {
         super("FREE PARKING", 0, 0, index, null);
@@ -23,7 +27,7 @@ public class ParkingTile extends Tile{
         g.setColor(new Color(255, 255, 255));
         g.fill(bounds);
         g.setColor(new Color(0, 0, 0));
-        DrawUtils.drawCenteredText(DrawUtils.NAME, NAME, g, bounds);
+        DrawUtils.drawCenteredText(DrawUtils.NAME, name, g, bounds);
     }
 
     @Override
